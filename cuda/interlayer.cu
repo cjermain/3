@@ -31,7 +31,7 @@ addinterlayerexchange(float* __restrict__  Bx, float* __restrict__  By, float* _
 	float J_iec2  = J2LUT[reg];
 
 	int top = __double2int_rn(toplayer[reg]);
-	int bottom = __double2int_rn(bottomlayer[reg];	
+	int bottom = __double2int_rn(bottomlayer[reg]);	
 	
 	if (__double2int_rn(u.x) == 0 && __double2int_rn(u.y) == 0 && __double2int_rn(u.z) == 1) {
 		//if (ix > Nx || iy > Ny || iz > Nz) return;
@@ -55,7 +55,6 @@ addinterlayerexchange(float* __restrict__  Bx, float* __restrict__  By, float* _
 			Bx[i] += Biec_top.x/cz;
 			By[i] += Biec_top.y/cz;
 			Bz[i] += Biec_top.z/cz;	
-			//printf("%e \n", cellsize_z);
 			//printf("%e \t %e \t %e\n", Biec_top.x,Biec_top.y,Biec_top.z);
 		}
 
@@ -79,7 +78,6 @@ addinterlayerexchange(float* __restrict__  Bx, float* __restrict__  By, float* _
 		//int i_y =  ( blockIdx.y*gridDim.x + blockIdx.x ) * blockDim.x + threadIdx.x;
 		//if (ix > Nx || iy > Ny || iz > Nz) return;
 		//printf("%d \t %d \t %d \t %d \n", i, ix, iy ,iz);
-		float  cellsize_y = cy;
 	
 		int start_pos_bot = (bottom+1)*Nx-Nx;
 		int end_pos_bot = start_pos_bot + Nx-1;
@@ -97,7 +95,6 @@ addinterlayerexchange(float* __restrict__  Bx, float* __restrict__  By, float* _
 				return;
 			}
 			float3 Biec_top  = (J_iec1 * m_prime + 2.0f * J_iec2 * m_prime * dot(m, m_prime)); // calc. IEC in toplayer
-			//printf("%e \n", cellsize_y);
 			//printf("%e \t %e \t %e\n", Biec_top.x,Biec_top.y,Biec_top.z);
 			Bx[i] += Biec_top.x/cy;
 			By[i] += Biec_top.y/cy;
@@ -122,7 +119,6 @@ addinterlayerexchange(float* __restrict__  Bx, float* __restrict__  By, float* _
 		}
 	}
 	if (__double2int_rn(u.x) == 1 && __double2int_rn(u.y) == 0 && __double2int_rn(u.z) == 0) {
-		float  cellsize_x = cx;
 	
 		if ( i == bottom + iy*Nx + iz*Nx*Ny   && i < Nx*Ny*Nz) {
 			int i_above = i + (top-bottom);
